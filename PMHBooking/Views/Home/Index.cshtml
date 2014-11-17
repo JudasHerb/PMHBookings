@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Patcham Memorial Hall Bookings</h1>
+    <p class="lead">Use the calendar below to make a provisional booking</p>
+</div>
+
+<div class="row">
+    <div id="calendar"></div>
+</div>
+
+<div id="dialog" title="Basic dialog" style="visibility:hidden">
+    <p>This is the default.</p>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                dayClick: function () {
+                    $('#dialog').dialog();
+                }
+            });
+        });
+    </script>
+    }
