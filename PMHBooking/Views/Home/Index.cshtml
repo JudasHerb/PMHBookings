@@ -11,18 +11,73 @@
     <div id="calendar"></div>
 </div>
 
-<div id="dialog" title="Add Booking" style="visibility:hidden">
-    <p>This is the default.</p>
-</div>
+<div id="dialog"  />
 
 @section scripts {
     <script type="text/javascript">
+        function showError(xhr, status, error)
+        {
+            alert("An AJAX error occured: " + status + "\nError: " + error);
+        }
+        function showBookingForm(data)
+        {
+            $('#dialog').html(data).dialog({
+                title: 'Book',
+                resizable: false,
+                modal: true,
+                width: 'auto'
+            });
+            $('#Date').datepicker();
+            $('#StartHour').spinner({ min: 0, max: 23 });
+            $('#EndHour').spinner({ min: 0, max: 60 });
+            $('#StartMinute').spinner({ min: 0, max: 23 });
+            $('#EndMinute').spinner({ min: 0, max: 60 });
+            $('#submitBooking').click(function()
+            {
+                $.post("/Booking/Booking", $('form').serialize(), function (result) {
+                    if (result == "ReFetch") {
+                        $('#dialog').dialog("close");
+                        $('#calendar').fullCalendar('refetchEvents');
+                    }
+                    else {
+                        showBookingForm(result);
+                    }
+                }).fail(function (xhr, status, error) {
+                    showError(xhr, status, error);
+                });
+                return false;
+            })
+        }
         $(document).ready(function () {
+            
             $('#calendar').fullCalendar({
-                dayClick: function () {
-                    $('#dialog').dialog();
+                events: function (start, end, timezone, callback)
+                {
+                    $.get("/Booking/Events", { startDate: start.toString(), endDate: end.toString() }, function (results) {
+                        var events = [];
+                        $.each(results,function (index,value)
+                        {
+                            events.push(
+                                {
+                                    title: value.title,
+                                    start: value.start,
+                                    end: value.end
+                                });
+                        });
+                        callback(events);
+                    }).fail(function (xhr, status, error) {
+                        showError(xhr, status, error);
+                    });
+                },
+                dayClick: function (date, jsEvent, view) {
+                    
+                    $.get("/Booking/Booking", { selectedDate: date.toString() }, function (data) {
+                        showBookingForm(data);
+                    }).fail(function (xhr, status,error) {
+                        showError(xhr, status, error);
+                    })
                 }
             });
         });
-    </script>
+</script>
     }

@@ -1,0 +1,114 @@
+﻿@model PMHBooking.Models.Booking
+
+@using (Html.BeginForm("Booking", "Booking"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <fieldset>
+        <legend>Event Information:</legend>
+        <div class="row">
+
+            @Html.LabelFor(m => m.Purpose, new { @class = "col-md-4 control-label" })
+
+            <div class="col-md-6">
+                @Html.TextBoxFor(m => m.Purpose, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Purpose, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+
+            @Html.LabelFor(m => m.Date, new { @class = "col-md-4 control-label" })
+
+            <div class="col-md-6">
+                @Html.TextBoxFor(m => m.Date, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.StartHour, new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.StartHour, new { @class = "form-control" })
+                
+            </div>
+            <div class="col-md-1 control-label">
+                <p>:</p>
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.StartMinute, new { @class = "form-control" })
+                
+            </div>
+        </div>
+        <div class="row">
+            @Html.ValidationMessageFor(m => m.StartHour, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.StartMinute, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.EndHour, new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.EndHour, new { @class = "form-control" })
+            </div>
+            <div class="col-md-1 control-label">
+                <p>:</p>
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.EndMinute, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.ValidationMessageFor(m => m.EndHour, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.EndMinute, "", new { @class = "text-danger" })
+            </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(m => m.Description, 10, 100, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.SelectedRepeat, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.SelectedRepeat, Model.Repeats)
+                @Html.ValidationMessageFor(m => m.SelectedRepeat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Contact Details:</legend>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactName, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ContactName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactAddress, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.ContactAddress, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ContactAddress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactPhone, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.ContactPhone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ContactPhone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactEmail, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.ContactEmail, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ContactEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </fieldset>
+    <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+            <input type="button" id="submitBooking" name="submitBooking" value="Book" class="btn btn-default" />
+        </div>
+    </div>
+}
+      
+

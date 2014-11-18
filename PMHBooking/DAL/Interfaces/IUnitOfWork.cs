@@ -8,6 +8,8 @@ namespace PMHBooking.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
+        IBookingRepository BookingRepository { get; }
+        IInvoiceRepository InvoiceRepository { get; }
         void Save();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PMHBooking.DAL.Interfaces;
+using PMHBooking.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,8 +15,11 @@ namespace PMHBooking.DAL
         {
         }
 
-        //private RestoreRequestRepository _restoreRequestRepository;
-        //public DbSet<RestoreRequest> RestoreRequests { get; set; }
+        private BookingRepository _bookingRepository;
+        public DbSet<Booking> Bookings { get; set; }
+
+        private InvoiceRepository _invoiceRepository;
+        public DbSet<Invoice> Invoices { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -28,9 +32,13 @@ namespace PMHBooking.DAL
             SaveChanges();
         }
 
-        //public IRestoreRequestRepository RestoreRequestRepository
-        //{
-        //    get { return _restoreRequestRepository ?? (_restoreRequestRepository = new RestoreRequestRepository(this)); }
-        //}
+        public IBookingRepository BookingRepository
+        {
+            get { return _bookingRepository ?? (_bookingRepository = new BookingRepository(this)); }
+        }
+        public IInvoiceRepository InvoiceRepository
+        {
+            get { return _invoiceRepository ?? (_invoiceRepository = new InvoiceRepository(this)); }
+        }
     }
 }
