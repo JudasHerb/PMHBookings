@@ -1,0 +1,68 @@
+﻿@model PMHBooking.Models.BookingMaintenanceForm
+
+@{
+    ViewBag.Title = "Booking Maintenance Form";
+}
+
+@Html.Partial("_BookingView", Model.Booking)
+
+@Html.Partial("~/Views/Invoice/_Invoices.cshtml", Model.Invoices)
+<button id="addInvoice" name="addInvoice" type="button">Invoice</button>
+
+<div id="dialog" />
+
+@section scripts {
+    <script type="text/javascript">
+        function showError(xhr, status, error)
+        {
+            alert("An AJAX error occured: " + status + "\nError: " + error);
+        }
+        function showInvoiceForm(data)
+        {
+            $('#dialog').html(data).dialog({
+                title: 'Book',
+                resizable: false,
+                modal: true,
+                width: 'auto'
+            });
+            $('.currency').autoNumeric({
+                aSign: '£',
+                mRound: 'B'
+            });
+            $('#submitInvoice').click(function()
+            {
+                $.post("/Invoice/Invoice", $('form').serialize(), function (result) {
+                    if (result == true) {
+                        $('#dialog').dialog("close");
+                    }
+                    else {
+                        showInvoiceForm(result);
+                    }
+                }).fail(function (xhr, status, error) {
+                    showError(xhr, status, error);
+                });
+                return false;
+            })
+        }
+        $(document).ready(function () {
+            $('.invoiceButton').click(function(){
+                var invoiceId = $(this).attr('invoiceId');
+                alert(invoiceId);
+
+                $.get("/Invoice/Invoice", { Id: invoiceId}, function (data) {
+                    showInvoiceForm(data);
+                }).fail(function (xhr, status, error) {
+                    showError(xhr, status, error);
+                })
+            });
+            $('#addInvoice').click(function () {
+                $.get("/Invoice/InvoiceForm", { bookingId: @Model.Booking.Id}, function (data) {
+                    showInvoiceForm(data);
+                }).fail(function (xhr, status, error) {
+                    showError(xhr, status, error);
+                })
+            });
+
+        });
+</script>
+    }

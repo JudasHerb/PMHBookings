@@ -23,7 +23,37 @@ namespace PMHBooking.Models
             StartMinute = "0";
             EndHour = "17";
             EndMinute = "0";
+            IsReadOnly = false;
         }
+        public Booking(PMHBooking.Entities.Booking booking)
+        {
+
+            Id = booking.ID;
+            Repeats = new List<SelectListItem>();
+            var values = Enum.GetValues(typeof(RepeatType));
+            foreach (var value in values)
+            {
+                Repeats.Add(new SelectListItem { Text = value.ToString(), Value = value.ToString() });
+            }
+
+            IsReadOnly = true;
+            Purpose = booking.Purpose;
+            Date = booking.From.Date.ToString("dd/MM/yyyy");
+            StartHour = booking.From.TimeOfDay.Hours.ToString();
+            StartMinute = booking.From.TimeOfDay.Minutes.ToString();
+            EndHour = booking.To.TimeOfDay.Hours.ToString();
+            EndMinute = booking.To.TimeOfDay.Minutes.ToString();
+            Description = booking.Description;
+            ContactName = booking.Contact.Name;
+            ContactAddress = booking.Contact.Address;
+            ContactPhone = booking.Contact.Phone;
+            ContactEmail = booking.Contact.Email;
+            SelectedRepeat = booking.Repeat.Type.ToString();
+        }
+
+        public bool IsReadOnly { get; set; }
+        public int Id { get; set; }
+
         [Required]
         [Display(Name = "Purpose of booking")]
         public string Purpose { get; set; }

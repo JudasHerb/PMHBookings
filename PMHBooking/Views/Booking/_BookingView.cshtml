@@ -1,0 +1,77 @@
+﻿@model PMHBooking.Models.Booking
+
+
+    <fieldset>
+        <legend>Event Information:</legend>
+        <div class="row">
+
+            @Html.LabelFor(m => m.Purpose, new { @class = "col-md-4 control-label" })
+
+            <div class="col-md-6">
+                <p>@Model.Purpose</p>
+            </div>
+        </div>
+        <div class="row">
+
+            @Html.LabelFor(m => m.Date, new { @class = "col-md-4 control-label" })
+
+            <div class="col-md-6">
+                <p>@Model.Date</p>
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.StartHour, new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                <p>@Model.StartHour : @Model.StartMinute</p>
+            </div>
+        </div>
+
+        <div class="row">
+            @Html.LabelFor(m => m.EndHour, new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                <p>@Model.EndHour : @Model.EndMinute</p>
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                <p>@Model.Description</p>
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.SelectedRepeat, new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                <p>@Model.SelectedRepeat</p>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Contact Details:</legend>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactName, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                c
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactAddress, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                <p>@Model.ContactAddress</p>
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactPhone, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                <p>@Model.ContactPhone</p>
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ContactEmail, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                <p>@Model.ContactEmail</p>
+            </div>
+        </div>
+    </fieldset>
+ 
+
+

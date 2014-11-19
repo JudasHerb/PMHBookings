@@ -11,6 +11,9 @@ namespace PMHBooking
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                 "~/Scripts/moment.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/autoNumeric").Include(
+                "~/Scripts/autoNumeric.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
                 "~/Scripts/fullcalendar.js"));
 

@@ -8,7 +8,8 @@
 </div>
 
 <div class="row">
-    <div id="calendar"></div>
+    <div id="tasks" class="col-md-4"></div>
+    <div id="calendar" class="col-md-8"></div>
 </div>
 
 <div id="dialog"  />
@@ -48,17 +49,28 @@
                 return false;
             })
         }
+        function showTasks()
+        {
+            $.get("/Booking/Tasks", function (results)
+            {
+                $.each(results, function (index, value) {
+                    $('#tasks').append("<h3>"+value.Header+"</h3><div><p>"+value.Description+"</p><a href='/Booking/BookingMaintenanceForm/"+value.BookingId+"'>Manage</a></div>")
+                });
+                $('#tasks').accordion();
+            });
+        }
         $(document).ready(function () {
-            
+            showTasks();
             $('#calendar').fullCalendar({
                 events: function (start, end, timezone, callback)
                 {
-                    $.get("/Booking/Events", { startDate: start.toString(), endDate: end.toString() }, function (results) {
+                    $.get("/Booking/CalendarEvents", { startDate: start.toString(), endDate: end.toString() }, function (results) {
                         var events = [];
                         $.each(results,function (index,value)
                         {
                             events.push(
                                 {
+                                    id: value.id,
                                     title: value.title,
                                     start: value.start,
                                     end: value.end
@@ -69,9 +81,17 @@
                         showError(xhr, status, error);
                     });
                 },
+                eventClick: function(calEvent, jsEvent, view)
+                {
+                    $.get("/Booking/Booking/" + calEvent.id, function (results) {
+                        showBookingForm(results);
+                    }).fail(function (xhr, status, error) {
+                        showError(xhr, status, error);
+                    });
+                },
                 dayClick: function (date, jsEvent, view) {
                     
-                    $.get("/Booking/Booking", { selectedDate: date.toString() }, function (data) {
+                    $.get("/Booking/BookingForm", { selectedDate: date.toString() }, function (data) {
                         showBookingForm(data);
                     }).fail(function (xhr, status,error) {
                         showError(xhr, status, error);

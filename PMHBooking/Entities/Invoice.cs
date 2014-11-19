@@ -24,5 +24,9 @@ namespace PMHBooking.Entities
         public decimal Amount { get; set; }
         [Required]
         public InvoiceState State { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
+        [Required]
+        public string Desciption{ get; set; }
     }
 }
