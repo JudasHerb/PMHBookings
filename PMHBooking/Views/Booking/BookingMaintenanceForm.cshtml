@@ -6,8 +6,12 @@
 
 @Html.Partial("_BookingView", Model.Booking)
 
-@Html.Partial("~/Views/Invoice/_Invoices.cshtml", Model.Invoices)
-<button id="addInvoice" name="addInvoice" type="button">Invoice</button>
+<fieldset>
+    <legend>Invoice Details</legend>
+    @Html.Partial("~/Views/Invoice/_Invoices.cshtml", Model.Invoices)
+
+    <button id="addInvoice" name="addInvoice" type="button">Invoice</button>
+</fieldset>
 
 <div id="dialog" />
 
@@ -23,32 +27,32 @@
                 title: 'Book',
                 resizable: false,
                 modal: true,
-                width: 'auto'
+                width: 'auto',
+                buttons: {
+                    "Submit": function()
+                    {
+                        $.post("/Invoice/Invoice", $('form').serialize(), function (result) {
+                            if (result == true) {
+                                $('#dialog').dialog("close");
+                            }
+                            else {
+                                showInvoiceForm(result);
+                            }
+                        }).fail(function (xhr, status, error) {
+                            showError(xhr, status, error);
+                        });
+                        return false;
+                    }
+                }
             });
             $('.currency').autoNumeric({
                 aSign: '£',
                 mRound: 'B'
             });
-            $('#submitInvoice').click(function()
-            {
-                $.post("/Invoice/Invoice", $('form').serialize(), function (result) {
-                    if (result == true) {
-                        $('#dialog').dialog("close");
-                    }
-                    else {
-                        showInvoiceForm(result);
-                    }
-                }).fail(function (xhr, status, error) {
-                    showError(xhr, status, error);
-                });
-                return false;
-            })
         }
         $(document).ready(function () {
             $('.invoiceButton').click(function(){
                 var invoiceId = $(this).attr('invoiceId');
-                alert(invoiceId);
-
                 $.get("/Invoice/Invoice", { Id: invoiceId}, function (data) {
                     showInvoiceForm(data);
                 }).fail(function (xhr, status, error) {

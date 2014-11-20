@@ -15,3 +15,13 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+ul.icon {
+    list-style: none; /* This removes the default bullets */
+    padding-left: 20px; /* This provides proper indentation for your icons */
+}
+ul.icon li { 
+    position: relative; /* Allows you to absolutely place the :before element
+                           relative to the <li>'s bounding box. */
+}

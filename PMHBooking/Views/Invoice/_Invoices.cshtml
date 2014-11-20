@@ -1,6 +1,6 @@
 ﻿@model PMHBooking.Models.Invoices
 
-<ul>
+<ul class="icon">
     @foreach (var invoice in Model.InvoiceList)
     {
         <li>
@@ -11,16 +11,19 @@
                 <div class="col-md-7">
                     <p>@invoice.Description</p>
                 </div>
+            </div>
+            <div class="row" >
+                <div class="col-md-1"></div>
                 <div class="col-md-1">
-                    <p>@invoice.Amount</p>
+                    <p>@invoice.StringAmount</p>
                 </div>
                 <div class="col-md-2">
                     <p>@invoice.State</p>
                 </div>
                 <div class="col-md-1">
-                    <button type="button" class="invoiceButton" invoiceId="@invoice.Id">manage</button>
+                    <button type="button" class="invoiceButton" invoiceid="@invoice.Id">manage</button>
                 </div>
             </div>
         </li>
-    }
-</ul>
+        }
+    </ul>

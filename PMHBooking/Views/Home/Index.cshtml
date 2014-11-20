@@ -8,6 +8,11 @@
 </div>
 
 <div class="row">
+    <div class="col-md-4"><h3>Tasks</h3></div>
+    <div class="col-md-8"><h3>Bookings</h3></div>
+</div>
+
+<div class="row">
     <div id="tasks" class="col-md-4"></div>
     <div id="calendar" class="col-md-8"></div>
 </div>
@@ -26,35 +31,59 @@
                 title: 'Book',
                 resizable: false,
                 modal: true,
-                width: 'auto'
+                width: 'auto',
+                buttons: {
+                    "Submit": function ()
+                    {
+                        $.post("/Booking/Booking", $('form').serialize(), function (result) {
+                            if (result == "ReFetch") {
+                                $('#dialog').dialog("close");
+                                $('#calendar').fullCalendar('refetchEvents');
+                            }
+                            else {
+                                showBookingForm(result);
+                            }
+                        }).fail(function (xhr, status, error) {
+                            showError(xhr, status, error);
+                        });
+                        return false;
+                    }
+                }
             });
             $('#Date').datepicker();
             $('#StartHour').spinner({ min: 0, max: 23 });
             $('#EndHour').spinner({ min: 0, max: 60 });
             $('#StartMinute').spinner({ min: 0, max: 23 });
             $('#EndMinute').spinner({ min: 0, max: 60 });
-            $('#submitBooking').click(function()
-            {
-                $.post("/Booking/Booking", $('form').serialize(), function (result) {
-                    if (result == "ReFetch") {
-                        $('#dialog').dialog("close");
-                        $('#calendar').fullCalendar('refetchEvents');
+        }
+        function showBooking(bookingId)
+        {
+            window.location.href = "/Booking/BookingMaintenanceForm/" + bookingId
+        }
+        function showViewBooking(data,bookingId) {
+            $('#dialog').html(data).dialog({
+                title: 'Book',
+                resizable: false,
+                modal: true,
+                width: 'auto',
+                buttons: {
+                    "Manage": function () {
+                        window.location.href = "/Booking/BookingMaintenanceForm/" + bookingId
                     }
-                    else {
-                        showBookingForm(result);
-                    }
-                }).fail(function (xhr, status, error) {
-                    showError(xhr, status, error);
-                });
-                return false;
-            })
+                }
+            });
+            $('#Date').datepicker();
+            $('#StartHour').spinner({ min: 0, max: 23 });
+            $('#EndHour').spinner({ min: 0, max: 60 });
+            $('#StartMinute').spinner({ min: 0, max: 23 });
+            $('#EndMinute').spinner({ min: 0, max: 60 });
         }
         function showTasks()
         {
             $.get("/Booking/Tasks", function (results)
             {
                 $.each(results, function (index, value) {
-                    $('#tasks').append("<h3>"+value.Header+"</h3><div><p>"+value.Description+"</p><a href='/Booking/BookingMaintenanceForm/"+value.BookingId+"'>Manage</a></div>")
+                    $('#tasks').append("<h3>" + value.Header + "</h3><div><p>" + value.Description + "</p><button type='button' onclick='showBooking("+value.BookingId+")'>Manage</button></div>")
                 });
                 $('#tasks').accordion();
             });
@@ -84,7 +113,7 @@
                 eventClick: function(calEvent, jsEvent, view)
                 {
                     $.get("/Booking/Booking/" + calEvent.id, function (results) {
-                        showBookingForm(results);
+                        showViewBooking(results, calEvent.id);
                     }).fail(function (xhr, status, error) {
                         showError(xhr, status, error);
                     });

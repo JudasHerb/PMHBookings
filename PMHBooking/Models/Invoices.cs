@@ -18,7 +18,9 @@ namespace PMHBooking.Models
                     Amount=invoice.Amount,
                     Description=invoice.Desciption,
                     Id=invoice.ID,
-                    State=invoice.State
+                    State=invoice.State,
+                    StringAmount = string.Format("{0:C}", invoice.Amount),
+                    Date=invoice.Date.ToString("dd/MM/yyyy")
                 });
             }
         }

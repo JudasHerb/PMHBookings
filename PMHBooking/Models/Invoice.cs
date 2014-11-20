@@ -33,7 +33,7 @@ namespace PMHBooking.Models
 
         [Required]
         [Display(Name = "Date")]
-        public InvoiceState Date { get; set; }
+        public string Date { get; set; }
 
     }
 }
