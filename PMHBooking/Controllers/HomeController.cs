@@ -16,7 +16,7 @@ namespace PMHBooking.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "About Patcham Memorial Hall";
-
+            throw new Exception("BANG");
             return View();
         }
 
